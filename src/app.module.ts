@@ -5,7 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { CustomLogger } from './Custon-logger';
 
 @Module({
-  imports: [LoggerModule.forRoot()],
+  imports: [LoggerModule.forRoot({ pinoHttp: { level: 'trace' } })],
   controllers: [AppController],
   providers: [AppService, CustomLogger],
   exports: [CustomLogger],
