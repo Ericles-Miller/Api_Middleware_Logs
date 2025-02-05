@@ -1,4 +1,12 @@
-import { Controller, Get, Logger, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -19,6 +27,13 @@ export class AppController {
 
   @Get(':id')
   getMovie(@Param('id') id: string) {
+    if (id !== '2') throw new NotFoundException('Movie not found');
+
     return { id, nome: 'Example Name Movie' };
+  }
+
+  @Post()
+  showMessage(@Body() message: string): string {
+    return message;
   }
 }
