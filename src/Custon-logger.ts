@@ -58,8 +58,6 @@ export class CustomLogger implements LoggerService {
   private initializeContextRules() {
     const rules = process.env.LOG_RULES ?? '';
 
-    console.log('aaaaaaaaaaa', rules);
-
     if (!rules) {
       CustomLogger.contextRules[this.DEFAULT_CONTEXT] =
         this.LOG_LEVEL_MAP[this.DEFAULT_LEVEL];
