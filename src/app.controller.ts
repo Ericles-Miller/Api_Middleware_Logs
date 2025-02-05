@@ -1,4 +1,4 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -15,5 +15,10 @@ export class AppController {
     this.logger.warn('Test warn message');
     this.logger.error('Test error message');
     return 'Logger test complete';
+  }
+
+  @Get(':id')
+  getMovie(@Param('id') id: string) {
+    return { id, nome: 'Example Name Movie' };
   }
 }
