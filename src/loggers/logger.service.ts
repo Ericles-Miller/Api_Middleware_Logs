@@ -17,17 +17,19 @@ export class LoggerService {
     timeRequest: number,
     movieId?: string,
   ): Promise<void> {
-    const log = new Logger(method, url, statusCode, level, movieId, ip, timeRequest);
+    try {
+      const log = new Logger(method, url, statusCode, level, movieId, ip, timeRequest);
 
-    await this.logRepository.save(log);
+      await this.logRepository.save(log);
+    } catch {
+      throw new InternalServerErrorException('Error saving log');
+    }
   }
 
   async getLogs(): Promise<Logger[]> {
     try {
       return await this.logRepository.find();
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-
+    } catch {
       throw new InternalServerErrorException('Error finding log');
     }
   }
