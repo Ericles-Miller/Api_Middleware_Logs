@@ -25,9 +25,9 @@ describe('LoggerService', () => {
   ];
 
   const mockRepository = {
-    findOne: jest.fn().mockResolvedValue(Logger),
+    findOne: jest.fn(),
     save: jest.fn(),
-    find: jest.fn().mockResolvedValue(loggers),
+    find: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -169,23 +169,26 @@ describe('LoggerService', () => {
     });
   });
 
-  // describe('suit tests findLog', () => {
-  //   it('should be able to find log by id', async () => {
-  //     const log = {
-  //       id: '335ecab5-4e51-4bfe-9e3b-4dd115e7a47b',
-  //       method: 'GET',
-  //       url: 'http://localhost:3000/logs',
-  //       statusCode: 200,
-  //       ip: '127.0.0.1',
-  //       level: ELoggerLevel.INFO,
-  //       timeRequest: 100,
-  //       movieId: '',
-  //     };
+  describe('suit tests findLog', () => {
+    it('should be able to find log by id', async () => {
+      const log: Logger = {
+        id: '335ecab5-4e51-4bfe-9e3b-4dd115e7a47b',
+        method: 'GET',
+        url: 'http://localhost:3000/logs',
+        statusCode: 200,
+        ip: '127.0.0.1',
+        level: ELoggerLevel.INFO,
+        timeRequest: 100,
+        movieId: '',
+        timestamp: new Date(),
+      };
 
-  //     const result = await service.findLog('335ecab5-4e51-4bfe-9e3b-4dd115e7a47b');
+      jest.spyOn(repository, 'findOne').mockResolvedValue(log);
 
-  //     expect(result).toEqual(log);
-  //     expect(repository.findOne).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+      const result = await service.findLog('335ecab5-4e51-4bfe-9e3b-4dd115e7a47b');
+
+      expect(result).toEqual(log);
+      expect(repository.findOne).toHaveBeenCalledTimes(1);
+    });
+  });
 });
