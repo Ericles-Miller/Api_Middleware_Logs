@@ -4,7 +4,7 @@ import { Logger } from './entities/logger.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ELoggerLevel } from './logger-level.enum';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 
 describe('LoggerService', () => {
   let service: LoggerService;
@@ -189,6 +189,14 @@ describe('LoggerService', () => {
 
       expect(result).toEqual(log);
       expect(repository.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw NotFoundException on unexpected error', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined);
+
+      await expect(service.findLog('335ecab5-4e51-4bfe-9e3b-4dd115e7a47b')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });
