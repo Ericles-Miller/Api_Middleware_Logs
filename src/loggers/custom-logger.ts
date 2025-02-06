@@ -1,4 +1,3 @@
-// src/CustomLogger.ts
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { LoggerService } from '@nestjs/common';
 import * as dotenv from 'dotenv';

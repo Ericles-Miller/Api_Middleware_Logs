@@ -18,7 +18,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
     response.on('finish', () => {
       const { statusCode } = response;
-      const movieId = request.params.movieid;
+      const movieId = request.params.movieId;
       const timeRequest = differenceInMilliseconds(startTimeRequest, Date.now());
 
       const level =
