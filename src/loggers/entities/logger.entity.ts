@@ -1,31 +1,50 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ELoggerLevel } from '../logger-level.enum';
 
-@Schema()
-export class Logger extends Document {
-  @Prop({ required: true })
+@Entity('loggers')
+export class Logger {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   method: string;
 
-  @Prop({ required: true })
+  @Column()
   url: string;
 
-  @Prop({ required: true })
+  @Column()
   statusCode: number;
 
-  @Prop({ default: Date.now })
+  @Column({ default: Date.now })
   timestamp: Date;
 
-  @Prop()
-  movieId: string;
+  @Column({ nullable: true })
+  movieId?: string;
 
-  @Prop()
+  @Column()
   ip: string;
 
-  @Prop({ required: true })
-  level: string;
+  @Column()
+  level: ELoggerLevel;
 
-  @Prop({ required: true })
+  @Column()
   timeRequest: number;
-}
 
-export const LogSchema = SchemaFactory.createForClass(Logger);
+  constructor(
+    method: string,
+    url: string,
+    statusCode: number,
+    level: ELoggerLevel,
+    moveId: string,
+    ip: string,
+    timeRequest: number,
+  ) {
+    this.method = method;
+    this.url = url;
+    this.level = level;
+    this.movieId = moveId;
+    this.ip = ip;
+    this.timeRequest = timeRequest;
+    this.statusCode = statusCode;
+  }
+}

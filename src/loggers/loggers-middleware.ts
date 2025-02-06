@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { LoggerService } from './logger.service';
 import { differenceInMilliseconds } from 'date-fns';
 import { CustomLogger } from './custom-logger';
+import { ELoggerLevel } from './logger-level.enum';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
@@ -20,26 +21,27 @@ export class LoggerMiddleware implements NestMiddleware {
       const movieId = request.params.movieid;
       const timeRequest = differenceInMilliseconds(startTimeRequest, Date.now());
 
-      const level = statusCode >= 500 ? 'error' : statusCode >= 400 ? 'warn' : 'info';
+      const level =
+        statusCode >= 500 ? ELoggerLevel.ERROR : statusCode >= 400 ? ELoggerLevel.WARN : ELoggerLevel.INFO;
 
       this.logsService.logRequest(method, originalUrl, statusCode, ip, level, timeRequest, movieId);
 
-      if (level === 'error') {
+      if (level === ELoggerLevel.ERROR) {
         this.customLogger.error(
           `${method} ${originalUrl} ${statusCode}  TimeRequest ${timeRequest} mil - IP: ${ip} - Movie ID: ${movieId || 'N/A'}`,
           'HTTP',
         );
-      } else if (level === 'warn') {
+      } else if (level === ELoggerLevel.WARN) {
         this.customLogger.warn(
           `${method} ${originalUrl} ${statusCode} TimeRequest ${timeRequest} mil - IP: ${ip} - Movie ID: ${movieId || 'N/A'}`,
           'HTTP',
         );
-      } else if (level === 'info') {
+      } else if (level === ELoggerLevel.INFO) {
         this.customLogger.log(
           `${method} ${originalUrl} ${statusCode} TimeRequest ${timeRequest} mil - IP: ${ip} - Movie ID: ${movieId || 'N/A'}`,
           'HTTP',
         );
-      } else if (level === 'debug') {
+      } else if (level === ELoggerLevel.DEBUG) {
         this.customLogger.debug(
           `${method} ${originalUrl} ${statusCode} TimeRequest ${timeRequest} mil - IP: ${ip} - Movie ID: ${movieId || 'N/A'}`,
           'HTTP',
