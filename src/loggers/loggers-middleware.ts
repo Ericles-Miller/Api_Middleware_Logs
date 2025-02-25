@@ -18,7 +18,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
     response.on('finish', async () => {
       const { statusCode } = response;
-      const { userId } = request.user;
+      const userId = request?.user?.userId;
       const userAgent = request.headers['user-agent'];
       const referer = request.headers['referer'] || 'N/A';
 

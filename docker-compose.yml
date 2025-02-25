@@ -5,7 +5,7 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false  # Desativa autenticação para ambiente local
+      - xpack.security.enabled=false  
     ports:
       - "9200:9200"
     networks:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - elasticsearch
     ports:
-      - "5044:5044"  # Porta padrão para receber logs do Filebeat
+      - "5044:5044"  
     networks:
       - elk
 
