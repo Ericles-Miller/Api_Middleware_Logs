@@ -4,14 +4,9 @@ import { LoggerModule } from 'nestjs-pino';
 import { CustomLogger } from './custom-logger';
 import { LoggerController } from './logger.controller';
 import { LoggerMiddleware } from './loggers-middleware';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Logger } from './entities/logger.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Logger]),
-    LoggerModule.forRoot({ pinoHttp: { level: 'trace', autoLogging: false } }),
-  ],
+  imports: [LoggerModule.forRoot({ pinoHttp: { level: 'trace', autoLogging: false } })],
   controllers: [LoggerController],
   providers: [LoggerService, CustomLogger],
   exports: [CustomLogger],
